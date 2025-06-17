@@ -1,0 +1,14 @@
+amt
+age
+hour
+day_of_week
+month
+distance_from_home
+city_pop
+category_encoded
+gender_encoded
+state_encoded
+job_encoded
+is_weekend
+is_night
+high_amount
