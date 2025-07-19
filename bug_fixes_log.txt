@@ -1,0 +1,103 @@
+FRAUD DETECTION DASHBOARD - BUG FIXES LOG
+===========================================
+Date: [Current Session]
+File: explainability_dashboard.py
+
+===========================================
+BUG #1: KeyError: 'transaction_amount'
+===========================================
+Location: explainability_dashboard.py, line 72
+Error Type: KeyError
+Description: Code attempted to access non-existent column 'transaction_amount'
+Root Cause: Mismatch between expected column names and actual feature names
+Solution: Updated to use correct column names from feature_names.txt:
+- 'transaction_amount' → 'high_amount'
+- 'transaction_hour' → 'hour'
+- 'customer_age' → 'age'
+- 'account_age_days' → 'distance_from_home'
+
+===========================================
+BUG #2: KeyError: 'transaction_hour'
+===========================================
+Location: explainability_dashboard.py, line 92
+Error Type: KeyError
+Description: Code attempted to access non-existent column 'transaction_hour'
+Root Cause: Incorrect column name reference
+Solution: Changed 'transaction_hour' to 'hour'
+
+===========================================
+BUG #3: KeyError: 'transaction_hour' (Second Instance)
+===========================================
+Location: explainability_dashboard.py, line 102
+Error Type: KeyError
+Description: Another instance of incorrect column name 'transaction_hour'
+Root Cause: Duplicate incorrect column references
+Solution: Changed 'transaction_hour' to 'hour', 'customer_age' to 'age', 'account_age_days' to 'city_pop'
+
+===========================================
+BUG #4: KeyError: 'foreign_transaction'
+===========================================
+Location: explainability_dashboard.py, line 114
+Error Type: KeyError
+Description: Code attempted to access non-existent column 'foreign_transaction'
+Root Cause: Incorrect column name reference
+Solution: Replaced with available column names:
+- 'foreign_transaction' → 'high_amount'
+- 'high_risk_merchant' → 'is_weekend'
+- 'online_transaction' → 'is_night'
+
+===========================================
+BUG #5: KeyError: 'foreign_transaction' (Multiple Instances)
+===========================================
+Location: explainability_dashboard.py, lines 114-133
+Error Type: KeyError
+Description: Multiple incorrect column references throughout the file
+Root Cause: Systematic mismatch between expected and actual column names
+Solution: Comprehensive replacement of incorrect column names:
+- 'foreign_transaction' → 'high_amount'
+- 'gender' → 'gender_encoded'
+- 'category' → 'category_encoded'
+- 'state' → 'state_encoded'
+- 'job' → 'job_encoded'
+- 'merchant' → 'age'
+- 'amt' → 'hour'
+
+===========================================
+BUG #6: KeyError: 'foreign_transaction' (Line 136)
+===========================================
+Location: explainability_dashboard.py, line 136
+Error Type: KeyError
+Description: Another instance of 'foreign_transaction' reference
+Root Cause: Missed instance during previous fixes
+Solution: Changed to 'day_of_week'
+
+===========================================
+BUG #7: KeyError: 'foreign_transaction' (Line 138)
+===========================================
+Location: explainability_dashboard.py, line 138
+Error Type: KeyError
+Description: Yet another instance of 'foreign_transaction' reference
+Root Cause: Multiple instances throughout the file
+Solution: Changed to 'day_of_week'
+
+===========================================
+BUG #8: KeyError: 'foreign_transaction' (Line 337)
+===========================================
+Location: explainability_dashboard.py, line 337
+Error Type: KeyError
+Description: Final instance of 'foreign_transaction' reference
+Root Cause: Systematic issue with column naming
+Solution: Changed to 'month'
+
+===========================================
+BUG #9: StreamlitAPIException - st.progress() Invalid Value
+===========================================
+Location: explainability_dashboard.py, line 127
+Error Type: StreamlitAPIException
+Description: st.progress() received invalid value type for prediction_proba
+Root Cause: prediction_proba was numpy scalar, not Python float
+Solution: Convert to float and clamp between 0-1:
+```python
+fraud_probability = float(prediction_proba)
+fraud_probability = max(0.0, min(1.0, fraud_probability))
+st.progress(fraud_probability)
